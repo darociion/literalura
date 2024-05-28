@@ -7,11 +7,12 @@ public class DataConverter implements IDataConverter {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public <T> T obtainData(String json, Class<T> javaClass) {
+    public <T> T obtainData(String json, Class<T> anyClass) {
         try {
-            return objectMapper.readValue(json, javaClass);
+            return objectMapper.readValue(json, anyClass);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error, can't process JSON.", e);
         }
     }
 }
+

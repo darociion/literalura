@@ -8,9 +8,10 @@ import java.util.List;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String title;
-    @ManyToOne
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
     private List<String> languages;
     private int downloads;
@@ -21,13 +22,14 @@ public class Book {
         this.title = bookData.title();
         this.languages = bookData.languages();
         this.downloads = bookData.downloads();
+        this.authors = bookData.author().stream().map(Author::new).toList();
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,11 +67,11 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "title='" + title + '\'' +
-                ", authors=" + authors +
-                ", languages=" + languages +
-                ", downloads=" + downloads +
-                '}';
+        return "\n---------------------" +
+                "\nTitle: " + title +
+                "\nAuthor: " + authors.get(0).getName() +
+                "\nLanguages: " + languages +
+                "\nDownloads: " + downloads +
+                "\n---------------------";
     }
 }
