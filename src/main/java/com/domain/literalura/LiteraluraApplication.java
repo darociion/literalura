@@ -11,9 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.domain.literalura")
+/*@ComponentScan(basePackages = "com.domain.literalura")
 @EnableJpaRepositories(basePackages = "com.domain.literalura.repository")
-@EntityScan(basePackages = "com.domain.literalura.model")
+@EntityScan(basePackages = "com.domain.literalura.model")*/
 public class LiteraluraApplication implements CommandLineRunner {
 
 	@Autowired

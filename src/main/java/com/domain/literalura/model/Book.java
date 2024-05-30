@@ -67,9 +67,10 @@ public class Book {
 
     @Override
     public String toString() {
+        String author = authors.get(0).getName();
         return "\n---------------------" +
                 "\nTitle: " + title +
-                "\nAuthor: " + authors.get(0).getName() +
+                "\nAuthor: " + author +
                 "\nLanguages: " + languages +
                 "\nDownloads: " + downloads +
                 "\n---------------------";
