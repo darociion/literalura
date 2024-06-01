@@ -1,6 +1,7 @@
 package com.domain.literalura.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,10 +11,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors;
-    private List<String> languages;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Author author;
+    private List<String> languages = new ArrayList<>();
     private int downloads;
 
     public Book() { }
@@ -22,7 +22,7 @@ public class Book {
         this.title = bookData.title();
         this.languages = bookData.languages();
         this.downloads = bookData.downloads();
-        this.authors = bookData.author().stream().map(Author::new).toList();
+        this.author = new Author(bookData.author().get(0));
     }
 
     public Long getId() {
@@ -41,12 +41,12 @@ public class Book {
         this.title = title;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public List<String> getLanguages() {
@@ -67,10 +67,9 @@ public class Book {
 
     @Override
     public String toString() {
-        String author = authors.get(0).getName();
         return "\n---------------------" +
                 "\nTitle: " + title +
-                "\nAuthor: " + author +
+                "\nAuthor: " + author.getName() +
                 "\nLanguages: " + languages +
                 "\nDownloads: " + downloads +
                 "\n---------------------";

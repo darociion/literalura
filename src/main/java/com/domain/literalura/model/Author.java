@@ -2,7 +2,6 @@ package com.domain.literalura.model;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -14,7 +13,7 @@ public class Author {
     private String name;
     private String birth_year;
     private String death_year;
-    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Book> books = new ArrayList<>();
 
     public Author() {}
@@ -64,7 +63,7 @@ public class Author {
     public void setBooks(List<Book> books) {
         this.books = new ArrayList<>();
         books.forEach(b -> {
-            b.setAuthors(Collections.singletonList(this));
+            b.setAuthor(this);
             this.books.add(b);
         });
     }
